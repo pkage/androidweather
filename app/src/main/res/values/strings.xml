@@ -1,6 +1,17 @@
 <resources>
-    <string name="app_name">Weather</string>
+    <string name="app_name">PJWeather</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- weekdays -->
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wenesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+
 </resources>
