@@ -5,7 +5,14 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
@@ -39,7 +46,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     private Network network;
     public String rawJSONResponse;
 
-
+    private List<Forecast> myWeather =  new ArrayList<Forecast>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,18 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
         this.buildGoogleApiClient();
         this.gapi.connect();
+        addWeather();
+        addListView();
+    }
+    private void addListView(){
+        ArrayAdapter<Forecast> adapter = new myListAdapter();
+        ListView list = (ListView) findViewById(R.id.listView);
+        list.setAdapter(adapter);
+    }
+    private void addWeather(){
+//        myWeather.add(new Forecast("Monday","Sunny",70F,.1,R.drawable.sunny));
+//        myWeather.add(new Forecast("Tuesday","Cloudy",60F,.40,R.drawable.cloudy));
+
     }
 
     @Override
@@ -76,7 +95,6 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
         return super.onOptionsItemSelected(item);
     }
-
     public void execHTTPRequest(StringRequest request) {
         this.queue.add(request);
     }
@@ -150,5 +168,29 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         System.out.println("failed to connect to google apis");
+    }
+
+    public static double convertFromKelvinToFahrenheit(double kelvin) {
+       kelvin = kelvin/256;
+        return kelvin;
+    }
+
+    private class myListAdapter extends ArrayAdapter<Forecast>{
+        public myListAdapter(){
+            super(OverviewActivity.this,R.layout.item_view,myWeather);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if(itemView==null){
+                itemView = getLayoutInflater().inflate(R.layout.item_view,parent,false);
+            }
+            Forecast currentWeather = myWeather.get(position);
+            ImageView imageView=(ImageView)itemView.findViewById(R.id.weatherLabel);
+            imageView.setImageResource(currentWeather.getNumber());
+            TextView weather;
+            return itemView;
+        }
     }
 }
