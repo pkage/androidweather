@@ -9,8 +9,22 @@ public class Forecast{
     private Weather conditions;
     private double temperature;
     private double chanceOfPrecipitation;
-
+    private int number;
+    public Forecast(Date date, Weather conditions, double temperature, double chanceOfPrecipitation, int number){
+        super();
+        this.chanceOfPrecipitation = chanceOfPrecipitation;
+        this.temperature = temperature;
+        this.date = date;
+        this.conditions = conditions;
+        this.number = number;
+    }
     // getters and setters
+    public int getNumber(){
+        return this.number;
+    }
+    public void setNumber(){
+        this.number=number;
+    }
     public Date getDate() {
         return this.date;
     }
