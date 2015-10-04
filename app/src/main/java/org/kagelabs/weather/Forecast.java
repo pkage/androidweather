@@ -10,13 +10,22 @@ public class Forecast{
     protected double temperature;
     protected double chanceOfPrecipitation;
     protected int number;
-    public Forecast(Date date, Weather conditions, double temperature, double chanceOfPrecipitation, int number){
+    public Forecast(Date date, Weather conditions, double temperature, double chanceOfPrecipitation){
         super();
         this.chanceOfPrecipitation = chanceOfPrecipitation;
         this.temperature = temperature;
         this.date = date;
         this.conditions = conditions;
-        this.number = number;
+        this.number = this.determineNumberFromConditions(conditions);
+    }
+    private int determineNumberFromConditions(Weather conditions){
+        if (conditions==Weather.SUNNY){
+            return R.drawable.sun;
+        }
+        else if(conditions==Weather.CLOUDY){
+            return R.drawable.cloudy;
+        }
+        return R.drawable.sun;
     }
     // getters and setters
     public int getNumber(){

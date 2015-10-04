@@ -102,7 +102,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
         Date date = new Date();
         Date date2 = new Date();
-        myWeather.add(new Forecast(date,Weather.SUNNY,70F,.1,R.drawable.sunny));
+        myWeather.add(new Forecast(date,Weather.SUNNY,70F,.1,R.drawable.sun));
         myWeather.add(new Forecast(date2,Weather.CLOUDY,60F,.40,R.drawable.cloudy));
 
     }
@@ -236,7 +236,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             Forecast currentWeather = myWeather.get(position);
             ImageView imageView = (ImageView)itemView.findViewById(R.id.imageView);
             imageView.setImageResource(currentWeather.getNumber());
-            TextView weather;
+            TextView temperature = (TextView) itemView.findViewById(R.id.temperature);
+            temperature.setText(currentWeather.getTemperature());
             return itemView;
         }
 

@@ -9,7 +9,7 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/sunny"
+        android:src="@drawable/sun"
         android:adjustViewBounds="true"
         android:maxHeight="80dp"
         android:maxWidth="80dp"/>
@@ -26,18 +26,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/imageView" />
+        android:text="Temperature"
+        android:id="@+id/temperature"
 
+        android:layout_alignBaseline="@+id/weatherLabel"
+        android:layout_alignBottom="@+id/weatherLabel"
+        android:layout_alignStart="@+id/textView" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/textView"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_below="@+id/textView" />
+        android:id="@+id/textView"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
