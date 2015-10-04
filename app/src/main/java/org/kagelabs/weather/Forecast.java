@@ -5,12 +5,12 @@ import java.util.Date;
  */
 public class Forecast{
     // instance variables
-    private Date date;
-    private Weather conditions;
-    private double temperature;
-    private double chanceOfPrecipitation;
-    private int number;
-    public Forecast(Date date, Weather conditions, double temperature, double chanceOfPrecipitation, int number){
+    protected Date date;
+    protected Weather conditions;
+    protected double temperature;
+    protected double chanceOfPrecipitation;
+    protected int number;
+    public Forecast(Date date, Weather weather, double temperature, double chanceOfPrecipitation, int number){
         super();
         this.chanceOfPrecipitation = chanceOfPrecipitation;
         this.temperature = temperature;
