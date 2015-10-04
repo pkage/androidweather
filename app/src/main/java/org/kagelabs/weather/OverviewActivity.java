@@ -85,9 +85,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         });
     }
     private void addListView(){
+        ArrayAdapter<Forecast> adapter = new myListAdapter();
         ListView list = (ListView) findViewById(R.id.weatherListView);
-
-        ArrayAdapter<Forecast> adapter = new myListAdapter(this.myWeather);
 
         if (list == null) {
             System.out.println("head for the hills everything is breaking");
@@ -95,7 +94,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             System.out.println("everything is fine");
         }
 
-        list.setAdapter(adapter);
+        //list.setAdapter(adapter);
+        System.out.println("Finished addListView even though we didn't do jack");
     }
 
     private void addWeather(){
@@ -223,8 +223,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     }
 
     private class myListAdapter extends ArrayAdapter<Forecast>{
-        public myListAdapter(ArrayList weather){
-            super(OverviewActivity.this,R.layout.item_view,weather);
+        public myListAdapter(){
+            super(OverviewActivity.this,R.layout.item_view,myWeather);
         }
 
         @Override
