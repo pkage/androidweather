@@ -57,7 +57,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_view);
+        setContentView(R.layout.activity_overview);
         System.out.println("starting app...");
         this.cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
         this.network = new BasicNetwork(new HurlStack());
@@ -94,7 +94,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             System.out.println("everything is fine");
         }
 
-        //list.setAdapter(adapter);
+        list.setAdapter(adapter);
         System.out.println("Finished addListView even though we didn't do jack");
     }
 
@@ -234,7 +234,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
                 itemView = getLayoutInflater().inflate(R.layout.item_view,parent,false);
             }
             Forecast currentWeather = myWeather.get(position);
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.weatherLabel);
+            ImageView imageView = (ImageView)itemView.findViewById(R.id.imageView);
             imageView.setImageResource(currentWeather.getNumber());
             TextView weather;
             return itemView;
