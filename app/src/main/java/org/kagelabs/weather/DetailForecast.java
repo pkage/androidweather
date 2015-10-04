@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * Created by nd on 9/21/15.
- */
+
 public class DetailForecast extends Forecast {
 
     private Date time;
@@ -24,3 +24,4 @@ public class DetailForecast extends Forecast {
         this.number = number;
     }
 }
+*/

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.android.volley.Cache;
 import com.android.volley.Network;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,9 +30,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class OverviewActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private static String WEATHER_API_KEY = "1e7d7c4776c9da7f51c0126a24a21cfc";
+    private static String WEATHER_API_KEY = "d75c746f867f03cfca132110b1638fe4";
     private static int NUMBER_OF_OVERVIEW_DAYS = 16;
 
     // location sucks
@@ -114,8 +117,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         this.queue.add(request);
     }
 
-    public static String getAPICallByCoords(String latitude, String longitude, int numberOfDays) {
-        return "http://api.openweathermap.com/data/2.5/forecast/daily?lat=" + latitude + "&long=" + longitude + "&cnt=" + numberOfDays + "&APPID=" + OverviewActivity.WEATHER_API_KEY;
+    public static String getAPICallByCoords(String latitude, String longitude) {
+        return "https://api.forecast.io/forecast/" + OverviewActivity.WEATHER_API_KEY + "/" + latitude + "," + longitude;
     }
 
     public static String getAPICallByCityAndCountryCode(String city, String country, int numberOfDays) {
@@ -147,6 +150,21 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
     public void refreshPage() {
         System.out.println(this.rawJSONResponse);
+        JSONObject forecast;
+        try {
+            forecast = new JSONObject(this.rawJSONResponse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        JSONArray daily;
+        try {
+            daily = forecast.getJSONArray("daily");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        
     }
 
     public void setRawJSONResponse(String json) {
@@ -161,7 +179,6 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
                 .addApi(LocationServices.API)
                 .build();
         System.out.println("Created the google api.");
-
     }
 
     @Override
@@ -169,7 +186,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         System.out.println("connected to google apis");
         lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(this.gapi);
         if (lastKnownLocation != null) {
-            String api = this.getAPICallByCoords(String.valueOf(lastKnownLocation.getLatitude()), String.valueOf(lastKnownLocation.getLongitude()), this.NUMBER_OF_OVERVIEW_DAYS);
+            String api = OverviewActivity.getAPICallByCoords(String.valueOf(lastKnownLocation.getLatitude()), String.valueOf(lastKnownLocation.getLongitude()));
             System.out.println("Curling " + api);
             this.getWeather(api);
         }
