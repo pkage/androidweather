@@ -8,10 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.android.volley.Cache;
@@ -68,6 +71,18 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         addWeather();
         addListView();
         clickCallBack();
+    }
+    private void clickCallBack(){
+        ListView list = (ListView)findViewById(R.id.weatherListView);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+                Forecast clickWeather = myWeather.get(position);
+                String message = "You clicked position " + position + "Which is weather " + clickWeather.getConditions();
+                Toast.makeText(OverviewActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
     private void addListView(){
         ListView list = (ListView) findViewById(R.id.weatherListView);
@@ -224,9 +239,6 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             TextView weather;
             return itemView;
         }
-        private void clickCallBack(){
-            ListView list = (ListView)findViewById(R.id.weatherListView);
-            list.setOnItemClickListener(new AdapterView.onItemCl);
-        }
+
     }
 }
