@@ -1,6 +1,7 @@
 package org.kagelabs.weather;
-
+import java.util.Date;
 import android.app.Activity;
+import android.database.DataSetObserver;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
@@ -49,17 +50,18 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     private Network network;
     public String rawJSONResponse;
 
-    private List<Forecast> myWeather =  new ArrayList<Forecast>();
+    private ArrayList<Forecast> myWeather;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_overview);
+        setContentView(R.layout.item_view);
         System.out.println("starting app...");
         this.cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
         this.network = new BasicNetwork(new HurlStack());
         this.queue = new RequestQueue(this.cache, this.network);
         this.queue.start();
 
+        myWeather = new ArrayList<Forecast>();
 
         this.buildGoogleApiClient();
         this.gapi.connect();
@@ -67,13 +69,25 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         addListView();
     }
     private void addListView(){
-        ArrayAdapter<Forecast> adapter = new myListAdapter();
-        ListView list = (ListView) findViewById(R.id.listView);
+        ListView list = (ListView) findViewById(R.id.weatherListView);
+
+        ArrayAdapter<Forecast> adapter = new myListAdapter(this.myWeather);
+
+        if (list == null) {
+            System.out.println("head for the hills everything is breaking");
+        } else {
+            System.out.println("everything is fine");
+        }
+
         list.setAdapter(adapter);
     }
+
     private void addWeather(){
-//        myWeather.add(new Forecast("Monday","Sunny",70F,.1,R.drawable.sunny));
-//        myWeather.add(new Forecast("Tuesday","Cloudy",60F,.40,R.drawable.cloudy));
+
+        Date date = new Date();
+        Date date2 = new Date();
+        myWeather.add(new Forecast(date,Weather.SUNNY,70F,.1,R.drawable.sunny));
+        myWeather.add(new Forecast(date2,Weather.CLOUDY,60F,.40,R.drawable.cloudy));
 
     }
 
@@ -188,13 +202,13 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     }
 
     public static double convertFromKelvinToFahrenheit(double kelvin) {
-        kelvin = kelvin/256;
+       kelvin = (kelvin-273.16)*9/5+32;
         return kelvin;
     }
 
     private class myListAdapter extends ArrayAdapter<Forecast>{
-        public myListAdapter(){
-            super(OverviewActivity.this,R.layout.item_view,myWeather);
+        public myListAdapter(ArrayList weather){
+            super(OverviewActivity.this,R.layout.item_view,weather);
         }
 
         @Override
@@ -204,7 +218,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
                 itemView = getLayoutInflater().inflate(R.layout.item_view,parent,false);
             }
             Forecast currentWeather = myWeather.get(position);
-            ImageView imageView=(ImageView)itemView.findViewById(R.id.weatherLabel);
+            ImageView imageView = (ImageView)itemView.findViewById(R.id.weatherLabel);
             imageView.setImageResource(currentWeather.getNumber());
             TextView weather;
             return itemView;
