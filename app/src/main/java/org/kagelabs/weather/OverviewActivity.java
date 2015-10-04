@@ -64,6 +64,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         this.gapi.connect();
         addWeather();
         addListView();
+        clickCallBack();
     }
     private void addListView(){
         ListView list = (ListView) findViewById(R.id.weatherListView);
@@ -205,6 +206,10 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             imageView.setImageResource(currentWeather.getNumber());
             TextView weather;
             return itemView;
+        }
+        private void clickCallBack(){
+            ListView list = (ListView)findViewById(R.id.weatherListView);
+            list.setOnItemClickListener(new AdapterView.onItemCl);
         }
     }
 }
