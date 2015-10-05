@@ -81,6 +81,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
                 Forecast clickWeather = myWeather.get(position);
                 String message = "You clicked position " + position + "Which is weather " + clickWeather.getConditions();
                 Toast.makeText(OverviewActivity.this, message, Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -102,8 +103,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
         Date date = new Date();
         Date date2 = new Date();
-        myWeather.add(new Forecast(date,Weather.SUNNY,70F,.1,R.drawable.sun));
-        myWeather.add(new Forecast(date2,Weather.CLOUDY,60F,.40,R.drawable.cloudy));
+        myWeather.add(new Forecast(date,Weather.SUNNY,70F,.1));
+        myWeather.add(new Forecast(date2,Weather.CLOUDY,60F,.40));
 
     }
 
@@ -237,7 +238,6 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             ImageView imageView = (ImageView)itemView.findViewById(R.id.imageView);
             imageView.setImageResource(currentWeather.getNumber());
             TextView temperature = (TextView) itemView.findViewById(R.id.temperature);
-            temperature.setText(currentWeather.getTemperature());
             return itemView;
         }
 

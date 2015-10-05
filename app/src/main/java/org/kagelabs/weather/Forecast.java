@@ -25,6 +25,25 @@ public class Forecast{
         else if(conditions==Weather.CLOUDY){
             return R.drawable.cloudy;
         }
+        else if(conditions==Weather.RAINY){
+            return R.drawable.rainy;
+        }
+        else if(conditions==Weather.HAIL){
+            return R.drawable.hail;
+        }
+        else if(conditions==Weather.WINDY){
+            return R.drawable.windy;
+        }
+        else if(conditions==Weather.SNOW){
+            return R.drawable.snowy;
+        }
+
+        else if(conditions==Weather.FOGGY){
+            return R.drawable.day_fog;
+        }
+        else if(conditions==Weather.THUNDERSNOW){
+            return R.drawable.thunderstorm;
+        }
         return R.drawable.sun;
     }
     // getters and setters
