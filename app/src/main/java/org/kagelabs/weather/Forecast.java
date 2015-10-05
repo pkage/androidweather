@@ -10,41 +10,51 @@ public class Forecast{
     protected double temperature;
     protected double chanceOfPrecipitation;
     protected int number;
-    public Forecast(Date date, Weather conditions, double temperature, double chanceOfPrecipitation){
+    public Forecast(Date date, String conditions, double temperature, double chanceOfPrecipitation){
         super();
         this.chanceOfPrecipitation = chanceOfPrecipitation;
         this.temperature = temperature;
         this.date = date;
-        this.conditions = conditions;
-        this.number = this.determineNumberFromConditions(conditions);
+        this.number = this.processConditions(conditions);
     }
-    private int determineNumberFromConditions(Weather conditions){
-        if (conditions==Weather.SUNNY){
+    private int processConditions(String conditions){
+        if (conditions.equals("clear-day")) {
+            this.conditions = Weather.SUNNY;
             return R.drawable.sun;
         }
-        else if(conditions==Weather.CLOUDY){
-            return R.drawable.cloudy;
+        else if (conditions.equals("clear-night")) {
+            this.conditions = Weather.SUNNY;
+            return R.drawable.moon;
         }
-        else if(conditions==Weather.RAINY){
+        else if (conditions.equals("rain")) {
+            this.conditions = Weather.RAINY;
             return R.drawable.rainy;
         }
-        else if(conditions==Weather.HAIL){
-            return R.drawable.hail;
-        }
-        else if(conditions==Weather.WINDY){
-            return R.drawable.windy;
-        }
-        else if(conditions==Weather.SNOW){
+        else if (conditions.equals("snow")) {
+            this.conditions = Weather.SNOW;
             return R.drawable.snowy;
         }
-
-        else if(conditions==Weather.FOGGY){
+        else if (conditions.equals("sleet")) {
+            this.conditions = Weather.SLEET;
+            return R.drawable.snow;
+        }
+        else if (conditions.equals("wind")) {
+            this.conditions = Weather.WINDY;
+            return R.drawable.snowy;
+        }
+        else if (conditions.equals("fog")) {
+            this.conditions = Weather.FOGGY;
             return R.drawable.day_fog;
         }
-        else if(conditions==Weather.THUNDERSNOW){
-            return R.drawable.thunderstorm;
+        else if (conditions.equals("partly-cloudy-day")) {
+            this.conditions = Weather.CLOUDY;
+            return R.drawable.partly_cloudy;
         }
-        return R.drawable.sun;
+        else if (conditions.equals("partly-cloudy-night")) {
+            this.conditions = Weather.CLOUDY;
+            return R.drawable.night_cloudy;
+        }
+        return R.drawable.precip;
     }
     // getters and setters
     public int getNumber(){
