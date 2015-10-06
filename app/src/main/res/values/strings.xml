@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PJWeather</string>
     <string name="action_settings">Settings</string>
-
+    <string name="action_hourly">Hourly</string>
     <!-- weekdays -->
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
