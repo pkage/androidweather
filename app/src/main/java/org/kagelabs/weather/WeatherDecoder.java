@@ -49,8 +49,9 @@ public class WeatherDecoder {
             JSONArray hourly_data = hourly.getJSONArray("data");
             for (int c = 0; c < hourly_data.length(); c++) {
                 JSONObject obj = hourly_data.getJSONObject(c);
-                // kill me pls
-                this.detailForecasts.add(new Forecast(new Date(obj.getLong("time")), obj.getString("icon"), obj.getDouble("temperature"), obj.getDouble("precipProbability"), obj.getString("summary")));
+                // kill me pls. java expects timestamps in milliseconds since epoch not seconds
+                // why that is no one knows
+                this.detailForecasts.add(new Forecast(new Date(obj.getLong("time") * 1000), obj.getString("icon"), obj.getDouble("temperature"), obj.getDouble("precipProbability"), obj.getString("summary")));
             }
 
             // get the daily data
@@ -59,7 +60,7 @@ public class WeatherDecoder {
             for (int c = 0; c < daily_data.length(); c++) {
                 JSONObject obj = daily_data.getJSONObject(c);
 
-                this.forecasts.add(new Forecast(new Date(obj.getLong("time")), obj.getString("icon"), obj.getDouble("temperatureMax"), obj.getDouble("precipProbability"), obj.getString("summary")));
+                this.forecasts.add(new Forecast(new Date(obj.getLong("time") * 1000), obj.getString("icon"), obj.getDouble("temperatureMax"), obj.getDouble("precipProbability"), obj.getString("summary")));
             }
 
 

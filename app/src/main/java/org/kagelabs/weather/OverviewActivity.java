@@ -176,20 +176,10 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
     public void refreshPage() {
         System.out.println(this.rawJSONResponse);
-        JSONObject forecast;
-        try {
-            forecast = new JSONObject(this.rawJSONResponse);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
-        JSONArray daily;
-        try {
-            daily = forecast.getJSONArray("daily");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
+        WeatherDecoder decoder = new WeatherDecoder();
+        decoder.decode(this.rawJSONResponse);
+        this.myWeather = decoder.forecasts;
+        this.addListView();
         
     }
 
@@ -247,12 +237,11 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             Forecast currentWeather = myWeather.get(position);
             ImageView imageView = (ImageView)itemView.findViewById(R.id.imageView);
             imageView.setImageResource(currentWeather.getNumber());
-            TextView temperature = (TextView) itemView.findViewById(R.id.temperature);
-            temperature.setText("Temperature:" + currentWeather.getTemperature());
-            TextView chanceOfPrecipitation = (TextView) itemView.findViewById(R.id.chanceOfPrecipitation);
-            chanceOfPrecipitation.setText("Chance of Precipitation:"+currentWeather.getChanceOfPrecipitation());
-            TextView weatherLabel = (TextView) itemView.findViewById(R.id.weatherLabel);
-            weatherLabel.setText("Weather:"+currentWeather.getConditions());
+            TextView description = (TextView) itemView.findViewById(R.id.weatherDescription);
+
+            String desc = String.format("%s\n%d°F\n%d%%", currentWeather.getDate().toString(), (int)currentWeather.getTemperature(), (int)(currentWeather.getChanceOfPrecipitation() * 100));
+
+            description.setText(desc);
 
             return itemView;
         }

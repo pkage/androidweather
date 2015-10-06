@@ -89,4 +89,8 @@ public class Forecast{
     public void setChanceOfPrecipitation(double chanceOfPrecipitation) {
         this.chanceOfPrecipitation = chanceOfPrecipitation;
     }
+
+    public String getSummary() {
+        return this.summary;
+    }
 }
