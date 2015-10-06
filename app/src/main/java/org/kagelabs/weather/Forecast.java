@@ -10,7 +10,8 @@ public class Forecast{
     protected double temperature;
     protected double chanceOfPrecipitation;
     protected int number;
-    public Forecast(Date date, String conditions, double temperature, double chanceOfPrecipitation){
+    String summary;
+    public Forecast(Date date, String conditions, double temperature, double chanceOfPrecipitation, String summary){
         super();
         this.chanceOfPrecipitation = chanceOfPrecipitation;
         this.temperature = temperature;

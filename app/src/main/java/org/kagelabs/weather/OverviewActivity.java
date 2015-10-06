@@ -104,8 +104,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
         Date date = new Date();
         Date date2 = new Date();
-        myWeather.add(new Forecast(date, "partly-cloudy-day", 70F, .1));
-        myWeather.add(new Forecast(date2, "rain", 60F, .40));
+        myWeather.add(new Forecast(date, "partly-cloudy-day", 70F, .1,"test"));
+        myWeather.add(new Forecast(date2, "rain", 60F, .40, "you should never see this"));
 
     }
 

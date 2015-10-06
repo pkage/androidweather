@@ -43,23 +43,23 @@ public class WeatherDecoder {
             JSONObject forecast = new JSONObject(data);
             JSONObject hourly = forecast.getJSONObject("hourly");
             // pull out the hourly overview string
-            this.hourly_overview = hourly.getString("overview");
+            this.hourly_overview = hourly.getString("summary");
 
             // get the hourly data
-            JSONArray hourly_data = forecast.getJSONArray("data");
+            JSONArray hourly_data = hourly.getJSONArray("data");
             for (int c = 0; c < hourly_data.length(); c++) {
                 JSONObject obj = hourly_data.getJSONObject(c);
                 // kill me pls
-                this.detailForecasts.add(new Forecast(new Date(obj.getLong("time")), obj.getString("icon"), obj.getDouble("temperature"), obj.getDouble("precipProbability")));
+                this.detailForecasts.add(new Forecast(new Date(obj.getLong("time")), obj.getString("icon"), obj.getDouble("temperature"), obj.getDouble("precipProbability"), obj.getString("summary")));
             }
 
             // get the daily data
             JSONObject daily = forecast.getJSONObject("daily");
             JSONArray daily_data = daily.getJSONArray("data");
             for (int c = 0; c < daily_data.length(); c++) {
-                JSONObject obj = hourly_data.getJSONObject(c);
+                JSONObject obj = daily_data.getJSONObject(c);
 
-                this.forecasts.add(new Forecast(new Date(obj.getLong("time")), obj.getString("icon"), obj.getDouble("temperatureMax"), obj.getDouble("precipProbability")));
+                this.forecasts.add(new Forecast(new Date(obj.getLong("time")), obj.getString("icon"), obj.getDouble("temperatureMax"), obj.getDouble("precipProbability"), obj.getString("summary")));
             }
 
 
