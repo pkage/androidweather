@@ -35,10 +35,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class OverviewActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static String WEATHER_API_KEY = "d75c746f867f03cfca132110b1638fe4";
@@ -57,6 +53,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     public String rawJSONResponse;
 
     private ArrayList<Forecast> myWeather;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +72,10 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         addListView();
         clickCallBack();
     }
+
+    /**
+     * Register click callbacks for each entry in the list
+     */
     private void clickCallBack(){
         ListView list = (ListView)findViewById(R.id.weatherListView);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,6 +89,11 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             }
         });
     }
+
+
+    /**
+     * Initializes the list view
+     */
     private void addListView(){
         ArrayAdapter<Forecast> adapter = new myListAdapter();
         ListView list = (ListView) findViewById(R.id.weatherListView);
@@ -102,6 +108,10 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         System.out.println("Finished addListView even though we didn't do jack");
     }
 
+
+    /**
+     * Fills some dummy data into myWeather
+     */
     private void addWeather(){
 
         Date date = new Date();
@@ -135,31 +145,50 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         }
 
     }
+
+
+    /**
+     * Opens the hourly forecasts
+     */
     private void openHourly(){
         System.out.println("pressed hourly");
         Intent intent = new Intent(this, Hourly.class);
         intent.putExtra(this.EXTRA_JSON, this.rawJSONResponse);
         startActivity(intent);
     }
+
+    /**
+     * opens the settings window
+     */
     private void openSettings(){
+        System.out.println("clicked settings");
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
 
     }
+
+    /**
+     * Add new request for Volley
+     * @param request
+     */
     public void execHTTPRequest(StringRequest request) {
         this.queue.add(request);
     }
 
+    /**
+     * Generate an API call from some coords and the API key
+     * @param latitude
+     * @param longitude
+     * @return string to curl
+     */
     public static String getAPICallByCoords(String latitude, String longitude) {
         return "https://api.forecast.io/forecast/" + OverviewActivity.WEATHER_API_KEY + "/" + latitude + "," + longitude;
     }
 
-    public static String getAPICallByCityAndCountryCode(String city, String country, int numberOfDays) {
-        return "http://api.openweathermap.com/data/2.5/forecast/daily?q=" + city + "," + country + "&cnt=" + numberOfDays + "&APPID=" + OverviewActivity.WEATHER_API_KEY;
-    }
-
-
-
-
-
+    /**
+     * Gets the weather and draws it.
+     * @param url
+     */
     public void getWeather(String apiurl) {
         StringRequest request = new StringRequest(Request.Method.GET, apiurl,
                 new Response.Listener<String>() {
@@ -179,6 +208,9 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         this.execHTTPRequest(request);
     }
 
+    /**
+     * Refreshes the list view
+     */
     public void refreshPage() {
         System.out.println(this.rawJSONResponse);
         WeatherDecoder decoder = new WeatherDecoder();
@@ -188,10 +220,18 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         
     }
 
+
+    /**
+     * Caches the JSON response
+     * @param json
+     */
     public void setRawJSONResponse(String json) {
         this.rawJSONResponse = json;
     }
 
+    /**
+     * Initialize the Google API Client
+     */
     private synchronized void buildGoogleApiClient() {
         System.out.println("Starting google api creation");
         this.gapi = new GoogleApiClient.Builder(this)
@@ -223,16 +263,21 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         System.out.println("failed to connect to google apis");
     }
 
-    public static double convertFromKelvinToFahrenheit(double kelvin) {
-       kelvin = (kelvin-273.16)*9/5+32;
-        return kelvin;
-    }
-
+    /**
+     * custom list adapter to do stuff
+     */
     private class myListAdapter extends ArrayAdapter<Forecast>{
         public myListAdapter(){
             super(OverviewActivity.this,R.layout.item_view,myWeather);
         }
 
+        /**
+         * view constructor
+         * @param position
+         * @param convertView
+         * @param parent
+         * @return a view
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
