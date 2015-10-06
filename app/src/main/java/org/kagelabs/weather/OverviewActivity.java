@@ -1,6 +1,7 @@
 package org.kagelabs.weather;
 import java.util.Date;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.location.Location;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import org.json.JSONObject;
 
 public class OverviewActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static String WEATHER_API_KEY = "d75c746f867f03cfca132110b1638fe4";
+    public static String EXTRA_JSON = "org.kagelabs.weather.extrajson";
     private static int NUMBER_OF_OVERVIEW_DAYS = 16;
 
     // location sucks
@@ -80,8 +82,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 Forecast clickWeather = myWeather.get(position);
-                String message = "You clicked position " + position + "Which is weather " + clickWeather.getConditions();
-                Toast.makeText(OverviewActivity.this, message, Toast.LENGTH_LONG).show();
+                String message = clickWeather.getSummary();
+                Toast.makeText(OverviewActivity.this, message, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -134,7 +136,10 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
     }
     private void openHourly(){
-        System.out.println("pressed settings");
+        System.out.println("pressed hourly");
+        Intent intent = new Intent(this, Hourly.class);
+        intent.putExtra(this.EXTRA_JSON, this.rawJSONResponse);
+        startActivity(intent);
     }
     private void openSettings(){
 

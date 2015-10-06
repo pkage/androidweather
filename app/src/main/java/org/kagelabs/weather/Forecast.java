@@ -17,6 +17,7 @@ public class Forecast{
         this.temperature = temperature;
         this.date = date;
         this.number = this.processConditions(conditions);
+        this.summary = summary;
     }
     private int processConditions(String conditions){
         if (conditions.equals("clear-day")) {
