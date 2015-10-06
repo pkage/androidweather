@@ -28,17 +28,19 @@
         android:layout_height="wrap_content"
         android:text="Temperature"
         android:id="@+id/temperature"
-        android:layout_margin="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/chanceOfPrecipitation" />
+        android:layout_alignEnd="@+id/chanceOfPrecipitation" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="chanceOfPrecipitation"
         android:id="@+id/chanceOfPrecipitation"
-        android:layout_margin="0dp"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_above="@+id/weatherLabel"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
