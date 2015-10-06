@@ -122,19 +122,19 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         // Handle presses on the action bar items
 
         switch (item.getItemId()){
-            case R.id.action_search:
-                openSearch();
+            case R.id.action_hourly:
+                openHourly();
                 return true;
             case R.id.action_settings:
-                openSettings();
+                openSettings();;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
-    private void openSearch(){
-
+    private void openHourly(){
+        System.out.println("pressed settings");
     }
     private void openSettings(){
 
