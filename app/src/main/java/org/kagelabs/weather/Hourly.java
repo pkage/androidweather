@@ -16,7 +16,10 @@ import android.app.Activity;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class Hourly extends Activity {
     private ArrayList<Forecast> myWeather;
@@ -93,7 +96,12 @@ public class Hourly extends Activity {
             imageView.setImageResource(currentWeather.getNumber());
             TextView description = (TextView) itemView.findViewById(R.id.weatherDescription);
 
-            String desc = String.format("%s\n%d°F\n%d%%", currentWeather.getDate().toString(), (int)currentWeather.getTemperature(), (int)(currentWeather.getChanceOfPrecipitation() * 100));
+            String hours = "";
+            String[] arr2 = currentWeather.getDate().toString().split(" ");
+            hours = arr2[3] + " " + arr2[4] + " " + arr2[5];
+
+
+            String desc = String.format("%s\n%d°F\n%d%%", hours, (int)currentWeather.getTemperature(), (int)(currentWeather.getChanceOfPrecipitation() * 100));
 
             description.setText(desc);
 

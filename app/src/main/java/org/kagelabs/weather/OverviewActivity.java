@@ -1,4 +1,6 @@
 package org.kagelabs.weather;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
@@ -340,10 +344,43 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             imageView.setImageResource(currentWeather.getNumber());
             TextView description = (TextView) itemView.findViewById(R.id.weatherDescription);
 
-            String desc = String.format("%s\n%d°F\n%d%%", currentWeather.getDate().toString(), (int)currentWeather.getTemperature(), (int)(currentWeather.getChanceOfPrecipitation() * 100));
+            /*String weekDay="";
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+            if (currentWeather.toString() == "Monday") {
+                weekDay = "Monday";
+            } else if (currentWeather.toString().equals("Tuesday")) {
+                weekDay = "Tuesday";
+            }else if (currentWeather.toString() == "Wednesday") {
+                weekDay = "Wednesday";
+            } else if (currentWeather.toString() == "Thursday") {
+                weekDay = "Thursday";
+            } else if (currentWeather.toString() == "Friday") {
+                weekDay = "Friday";
+            }else if (currentWeather.toString() == "Saturday") {
+                weekDay = "Saturday";
+            } else  {
+                weekDay = "Sunday";
+            }
 
+            for(currentWeather : myWeather) {
+                String weekDay;
+                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+
+                Calendar calendar = Calendar.getInstance();
+                weekDay = dayFormat.format(calendar.getTime());
+                String desc = String.format("%s\n%d°F\n%d%%", weekDay, (int) currentWeather.getTemperature(), (int) (currentWeather.getChanceOfPrecipitation() * 100));
+
+                description.setText(desc);
+            }*/
+
+            String prettyTimestamp = "";
+
+            // create the pretty timestamp
+            String[] arr = currentWeather.getDate().toString().split(" ");
+            prettyTimestamp = arr[0] + " " + arr[1] + " " + arr[2];
+
+            String desc = String.format("%s\n%d°F\n%d%%", prettyTimestamp, (int)currentWeather.getTemperature(), (int)(currentWeather.getChanceOfPrecipitation() * 100));
             description.setText(desc);
-
             return itemView;
         }
 
