@@ -10,6 +10,8 @@ public class Forecast{
     protected double temperature;
     protected double chanceOfPrecipitation;
     protected int number;
+    protected Date day;
+    protected Date hour;
     String summary;
     public Forecast(Date date, String conditions, double temperature, double chanceOfPrecipitation, String summary){
         super();
@@ -93,5 +95,18 @@ public class Forecast{
 
     public String getSummary() {
         return this.summary;
+    }
+    public void setDay(Date day){
+        this.day=day;
+    }
+    public void setHour(Date hour){
+        this.hour=hour;
+    }
+    public Date getDay() {
+        return this.day;
+    }
+
+    public Date getHour() {
+        return this.hour;
     }
 }
