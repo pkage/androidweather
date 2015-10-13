@@ -39,6 +39,7 @@ import com.google.android.gms.location.LocationServices;
 public class OverviewActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static String WEATHER_API_KEY = "d75c746f867f03cfca132110b1638fe4";
     public static String EXTRA_JSON = "org.kagelabs.weather.extrajson";
+    public static String SETTINGS_JSON = "settings.json";
     private static int NUMBER_OF_OVERVIEW_DAYS = 16;
 
     // location sucks
@@ -53,6 +54,13 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     public String rawJSONResponse;
 
     private ArrayList<Forecast> myWeather;
+
+    private SettingsCache settingsCache;
+
+
+    public OverviewActivity() {
+        System.out.println("Running once...");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +79,23 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
         addWeather();
         addListView();
         clickCallBack();
+
+        this.settingsCache = new SettingsCache();
+        try {
+            this.settingsCache.read(openFileInput(OverviewActivity.SETTINGS_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            this.settingsCache.write(openFileOutput(OverviewActivity.SETTINGS_JSON, MODE_PRIVATE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -140,6 +165,8 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
             case R.id.action_settings:
                 openSettings();;
                 return true;
+            case R.id.action_refresh:
+                this.onConnected(null); // hacky!
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -163,7 +190,14 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
     private void openSettings(){
         System.out.println("clicked settings");
         Intent intent = new Intent(this, Settings.class);
+        // cache the settings before we do the thing
+        try {
+            this.settingsCache.write(openFileOutput(OverviewActivity.SETTINGS_JSON, MODE_PRIVATE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         startActivity(intent);
+
 
     }
 
@@ -187,7 +221,7 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
     /**
      * Gets the weather and draws it.
-     * @param url
+     * @param apiurl
      */
     public void getWeather(String apiurl) {
         StringRequest request = new StringRequest(Request.Method.GET, apiurl,
@@ -244,10 +278,27 @@ public class OverviewActivity extends Activity implements GoogleApiClient.Connec
 
     @Override
     public void onConnected(Bundle bundle) {
+        try {
+            this.settingsCache.read(openFileInput(OverviewActivity.SETTINGS_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("connected to google apis");
         lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(this.gapi);
         if (lastKnownLocation != null) {
-            String api = OverviewActivity.getAPICallByCoords(String.valueOf(lastKnownLocation.getLatitude()), String.valueOf(lastKnownLocation.getLongitude()));
+            String api;
+            String sysloc = this.settingsCache.get("use_system_location");
+            if (sysloc == null || sysloc.equals("true")) {
+                System.out.println("\tusing system location");
+                api = OverviewActivity.getAPICallByCoords(String.valueOf(lastKnownLocation.getLatitude()), String.valueOf(lastKnownLocation.getLongitude()));
+                this.settingsCache.put("lat", String.valueOf(lastKnownLocation.getLatitude()));
+                this.settingsCache.put("long", String.valueOf(lastKnownLocation.getLongitude()));
+            } else {
+                System.out.println("\tnot using system location");
+                String latitude = this.settingsCache.get("lat");
+                String longitude = this.settingsCache.get("long");
+                api = OverviewActivity.getAPICallByCoords(latitude, longitude);
+            }
             System.out.println("Curling " + api);
             this.getWeather(api);
         }

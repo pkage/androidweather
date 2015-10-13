@@ -1,0 +1,18 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=11:DD:6F:96:83:A2:84:A9:BC:4D:46:62:73:E4:DB:D7:71:BE:14:52%3Borg.kagelabs.weather
+
+    You can also add your credentials to an existing key, using this line:
+    11:DD:6F:96:83:A2:84:A9:BC:4D:46:62:73:E4:DB:D7:71:BE:14:52;org.kagelabs.weather
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        YOUR_KEY_HERE
+    </string>
+</resources>
